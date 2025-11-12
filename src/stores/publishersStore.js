@@ -16,9 +16,9 @@ export const usePublisherStore = defineStore('publisher', {
             this.loading = true
             this.error = null
 
-            return api.get('/publisher')
+            return api.get('/publishers')
                 .then(response => {
-                    this.publishers = response.data
+                    this.publishers = response.data.content
                 })
                 .catch(e => {
                     console.error('Erro:', e.response?.data || e.message);
@@ -30,7 +30,7 @@ export const usePublisherStore = defineStore('publisher', {
         },
 
         addPublisher(publisher) {
-            return api.post('/publisher', publisher)
+            return api.post('/publishers', publisher)
                 .then(response => {
                     this.publishers.push(response.data)
                     successMsg(i18n.global.t('toasts.success.postSuccess'))
@@ -44,7 +44,7 @@ export const usePublisherStore = defineStore('publisher', {
         },
 
         updatePublisher(id, updated) {
-            return api.put(`/publisher/${id}`, updated)
+            return api.put(`/publishers/${id}`, updated)
                 .then(response => {
                     const index = this.publishers.findIndex(p => p.id === id)
                     if (index !== -1) this.publishers[index] = response.data
@@ -61,7 +61,7 @@ export const usePublisherStore = defineStore('publisher', {
 
         deletePublisher(id) {
 
-            return api.delete(`/publisher/${id}`)
+            return api.delete(`/publishers/${id}`)
                 .then(() => {
                     this.publishers = this.publishers.filter(p => p.id !== id)
                     successMsg(i18n.global.t('toasts.success.deleteSuccess'))

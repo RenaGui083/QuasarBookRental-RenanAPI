@@ -18,11 +18,12 @@ export const useBookStore = defineStore('book', {
             this.loading = true
             this.error = null
 
-            return api.get('/book')
+            return api.get('/books')
                 .then(response => {
+                    console.log('response.data:', response.data)
                     this.books = response.data
 
-                    this.fetchBooksTable = response.data.map(book => ({
+                    this.fetchBooksTable = response.data.content.map(book => ({
                         ...book,
                         name: book.name,
                         publisher: book.publisher.name,
@@ -44,7 +45,7 @@ export const useBookStore = defineStore('book', {
         },
 
         addBook(books) {
-            return api.post('/book', books)
+            return api.post('/books', books)
                 .then(response => {
                     this.books.push(response.data)
                     successMsg(i18n.global.t('toasts.success.postSuccess'))
@@ -58,7 +59,7 @@ export const useBookStore = defineStore('book', {
         },
 
         updateBook(id, updated) {
-            return api.put(`/book/${id}`, updated)
+            return api.put(`/books/${id}`, updated)
                 .then(response => {
                     const index = this.books.findIndex(b => b.id === id)
                     if (index !== -1) this.books[index] = response.data
@@ -74,7 +75,7 @@ export const useBookStore = defineStore('book', {
         },
 
         deleteBook(id) {
-            return api.delete(`/book/${id}`)
+            return api.delete(`/books/${id}`)
                 .then(() => {
                     this.books = this.books.filter(b => b.id !== id)
                     successMsg(i18n.global.t('toasts.success.deleteSuccess'))
@@ -88,8 +89,8 @@ export const useBookStore = defineStore('book', {
 
         async fetchPublishers() {
             try {
-                const publisherRes = await api.get('/publisher')
-                this.publishersOptions = publisherRes.data
+                const publisherRes = await api.get('/publishers')
+                this.publishersOptions = publisherRes.data.
 
                 console.log('publishers:', this.publishersOptions)
             } catch (err) {

@@ -14,9 +14,9 @@ export const useRenterStore = defineStore('renter', {
             this.loading = true
             this.error = null
 
-            return api.get('/renter')
+            return api.get('/renters')
                 .then(response => {
-                    this.renters = response.data
+                    this.renters = response.data.content
                 })
                 .catch(e => {
                     console.error('Erro:', e.response?.data || e.message);
@@ -28,7 +28,7 @@ export const useRenterStore = defineStore('renter', {
         },
 
         addRenter(renter) {
-            return api.post('/renter', renter)
+            return api.post('/renters', renter)
                 .then(response => {
                     this.renters.push(response.data)
                     successMsg(i18n.global.t('toasts.success.postSuccess'))
@@ -42,7 +42,7 @@ export const useRenterStore = defineStore('renter', {
         },
 
         updateRenter(id, updated) {
-            return api.put(`/renter/${id}`, updated)
+            return api.put(`/renters/${id}`, updated)
                 .then(response => {
                     const index = this.renters.findIndex(r => r.id === id)
                     if (index !== -1) this.renters[index] = response.data
@@ -58,7 +58,7 @@ export const useRenterStore = defineStore('renter', {
         },
 
         deleteRenter(id) {
-            return api.delete(`/renter/${id}`)
+            return api.delete(`/renters/${id}`)
                 .then(() => {
                     this.renters = this.renters.filter(r => r.id !== id)
                     successMsg(i18n.global.t('toasts.success.deleteSuccess'))

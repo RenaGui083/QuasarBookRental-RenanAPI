@@ -18,12 +18,12 @@ export const useRentsStore = defineStore('rents', {
             this.loading = true
             this.error = null
 
-            return api.get('/rent')
+            return api.get('/rents')
                 .then(response => {
                     this.rents = response.data
 
                     // const locale = i18n.global.locale.value || i18n.global.locale
-                    this.fetchRentsTable = response.data.map(rent => ({
+                    this.fetchRentsTable = response.data.content.map(rent => ({
                         ...rent,
                         book: rent.book.name,
                         renter: rent.renter.name,
@@ -49,7 +49,7 @@ export const useRentsStore = defineStore('rents', {
         },
 
         addRent(rent) {
-            return api.post('/rent', rent)
+            return api.post('/rents', rent)
                 .then(response => {
                     this.rents.push(response.data)
                     successMsg(i18n.global.t('toasts.success.postSuccess'))
@@ -80,7 +80,7 @@ export const useRentsStore = defineStore('rents', {
         },
 
         finishRent(id) {
-            return api.put(`/rent/${id}`)
+            return api.put(`/rents/${id}`)
                 .then(() => {
                     successMsg(i18n.global.t('toasts.success.finishRent'))
                     return true
@@ -95,10 +95,10 @@ export const useRentsStore = defineStore('rents', {
 
         async fetchBooksAndRenters() {
             try {
-                const booksRes = await api.get('/book')
+                const booksRes = await api.get('/books')
                 this.booksOptions = booksRes.data
 
-                const rentersRes = await api.get('/renter')
+                const rentersRes = await api.get('/renters')
                 this.rentersOptions = rentersRes.data
 
                 console.log('Books:', this.booksOptions)

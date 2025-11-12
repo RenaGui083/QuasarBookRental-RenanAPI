@@ -108,8 +108,8 @@ const onSubmit = async () => {
   if (!loginForm.value.validate()) return
 
   try {
-    const res = await authenticate.login(email.value, password.value)
-    console.log('Logou! Token:', res.token)
+    await authenticate.login(email.value, password.value)
+    console.log('Successful Login')
     router.replace('/dashboard-quasar')
   } catch {
     errorMsg.value = t('login.hints.alert')

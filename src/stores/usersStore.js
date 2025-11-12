@@ -14,9 +14,9 @@ export const useUserStore = defineStore('user', {
             this.loading = true
             this.error = null
 
-            return api.get('/user')
+            return api.get('/users')
                 .then(response => {
-                    this.users = response.data
+                    this.users = response.data.content
                     // this.users = response.data.map(user => ({
                     //     ...user,
                     //     role: user.role === 'ADMIN' 
@@ -34,7 +34,7 @@ export const useUserStore = defineStore('user', {
         },
 
         addUser(user) {
-            return api.post('/user', user)
+            return api.post('/users', user)
                 .then(response => {
                     this.users.push(response.data)
                     successMsg(i18n.global.t('toasts.success.postSuccess'))
@@ -48,7 +48,7 @@ export const useUserStore = defineStore('user', {
         },
 
         updateUser(id, updated) {
-            return api.put(`/user/${id}`, updated)
+            return api.put(`/users/${id}`, updated)
                 .then(response => {
                     const index = this.users.findIndex(u => u.id === id)
                     if (index !== -1) this.users[index] = response.data
@@ -64,7 +64,7 @@ export const useUserStore = defineStore('user', {
         },
 
         deleteUser(id) {
-            return api.delete(`/user/${id}`)
+            return api.delete(`/users/${id}`)
                 .then(() => {
                     this.users = this.users.filter(u => u.id !== id)
                     successMsg(i18n.global.t('toasts.success.deleteSuccess'))
