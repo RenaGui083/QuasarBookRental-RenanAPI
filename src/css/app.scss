@@ -1,0 +1,499 @@
+// app global css in SCSS form
+
+//Forgot password and login
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+.mainContainer {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  max-height: 90vh;
+  padding-top: 10px !important;
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+    background-color: #E0E4EB;
+}
+
+#fundoForgotPassword {
+    background-color: #121F2F;
+}
+
+#fundoLogin {
+    background-color: #121F2F;
+    font-size: 90%;
+}
+
+.formLogin {
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 50%;
+}
+
+
+.formLogin img {
+    display: none;
+}
+
+.input {
+    width: 150%;
+}
+
+.input .q-field__control {
+  background-color: #404668;   
+}
+
+#logIn {
+    width: 50%;
+    background-color: #F7B176;
+    color: #2B324E;
+    font-weight: bolder;
+}
+
+#backButton {
+    width: 50%;
+    background-color: #404668;
+    color: #F7B176;
+    font-weight: bolder;
+}
+
+
+.containerLogin {
+    width: 60%;
+    background-color: #2B324E;
+    color: white;
+    display: flex;
+    // height: 90%;
+    border-radius: 25px;
+}
+
+#containerForgotPassword {
+    width: 60%;
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: 90%;
+}
+
+
+.logoSection img {
+    width: 80px;
+    margin-right: 10px;
+    //   height: 100px;
+}
+
+.logoSection {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6%;
+}
+
+.containerLogin header {
+    font-size: 250%;
+    width: 150%;
+    // margin-bottom: 2%;
+}
+
+.imgLogin {
+    background-image: url("src/assets/fundoLogin.jpg");
+    height: auto;
+    width: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    padding: 2%;
+    display: flex;
+}
+
+.imgLogin img {
+    height: 60px;
+}
+
+#imgLogin {
+    justify-content: flex-end;
+}
+
+.left {
+    padding: 3%;
+    padding-bottom: 5%;
+    width: 55%;
+    // background-color: #00ffcc;
+}
+
+#forgotPasswordLabel {
+    text-decoration: none;
+    color: white;
+}
+
+.buttons {
+    display: flex;
+    gap: 5%;
+}
+
+#imgForgotPassword {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    display: flex;
+    justify-content: none;
+}
+
+
+@media (max-width: 768px) {
+
+    // html,
+    // body {
+    //     // overflow-x: hidden;
+    //     // overflow-y: hidden;
+    // }
+
+
+    .q-page .imgLogin {
+        display: none;
+    }
+
+    .containerLogin {
+        width: 90%;
+        height: 75vh;
+        padding-top: 10%;
+    }
+
+    #containerForgotPassword {
+        width: 90%;
+        height: 60vh;
+        padding-top: 10%;
+        display: block;
+    }
+
+    #formForgotPassword {
+        width: 120%;
+    }
+
+    .formLogin {
+        width: 115%;
+    }
+
+    .formLogin img {
+        width: 70px;
+        align-self: flex-end;
+        display: block;
+    }
+
+    .containerLogin header {
+        font-size: 170%;
+    }
+
+    .logoSection {
+        width: 190%;
+    }
+
+    #imgForgotPassword {
+        display: none;
+    }
+
+    // .mainContainer {
+    //     overflow-x: hidden;
+    //     overflow-y: scroll;
+    // }
+
+    .mainContainer {
+        overflow-x: hidden;
+        overflow-y: auto; // pode scrollar no mobile
+        height: auto; // deixa crescer
+    }
+
+    .sectionBottom {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sectionTop {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sectionTop,
+    .sectionBottom {
+        display: flex;
+        flex-direction: column; // fica um embaixo do outro
+        gap: 15px;
+        width: 100%;
+    }
+
+    .cardSection,
+    #gridDashboard {
+        width: 100% !important; // ocupa 100% da largura da tela
+        margin-bottom: 15px;
+    }
+
+    #chartPieSection {
+        width: 100% !important;
+        margin-top: 4%;
+    }
+}
+
+//Main layout
+
+.header {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    height: 10%;
+    color: #121F2F;
+}
+
+.sideBar {
+    background-color: #121F2F;
+    color: white;
+    // padding-top: 4%;
+    font-size: 120%;
+}
+
+.sideBar img {
+    width: 70px;
+}
+
+.headerSideBar {
+    // padding-left: 10%;
+    display: flex;
+    align-items: center;
+    // font-size: 140%;
+    gap: 25px;
+    color: white;
+    background-color: #1F2548;
+    padding: 0;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+.menu-item {
+    padding-left: 11%;
+    margin: 5% 0;
+    /* espaçamento vertical */
+}
+
+#toolBarImg {
+    width: 70px;
+}
+
+.menu-item:hover {
+    padding-left: 10%;
+    transition: 0.7s;
+}
+
+//dashboard
+
+.dashboardContainer {
+    // height: 100%;
+    width: 100%;
+    // background-color: #00ffcc;
+}
+
+.sectionTop {
+    width: 100%;
+    display: flex;
+    justify-content: space-between; // distribui os cards
+    gap: 15px; // espaçamento entre eles
+    margin-bottom: 15px;
+}
+
+.headerContainerChart {
+    font-size: 180%;
+    background-color: #ffffff;
+    margin-bottom: 4%;
+}
+
+.numberOfMonths{
+    width: 25%;
+    height: 30px;
+    border-radius: 6px;
+    // border: #1F2548  1px solid;
+    font-size: 12px;
+    padding: 5px;
+}
+
+#conteinerDashboard{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#conteinerDashboard2{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#usersChart{
+    padding: 4%;
+    background-color: #E0E4EB;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#adminsChart{
+    padding: 4%;
+    background-color: #ffe3a7;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cardSection {
+    // // padding: 30px;
+    // border-radius: 16px;
+    // width: 33%;
+    flex: 1; // ocupa espaço igual
+    min-width: 0; // evita overflow
+    border-radius: 16px;
+    max-height: 280px;
+}
+
+
+#chartPieBottom {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%; 
+    max-height: 200px;
+    margin: auto;
+    margin-top: -8%;
+}
+
+
+.numberOfUsers {
+    height: auto;
+    width: 40%;
+    border-radius: 15px;
+    background-color: white;
+}
+
+.headerContainerChart {
+    font-size: 140%;
+}
+
+.localeSelector {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 999;
+    // background-color: #ffffff;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.localeSelectorSideBar{
+    background-color: #ffffff;
+    // width: 100%;
+    padding: 4px;
+    border-radius: 4px;
+    margin-top: 6%;
+    // height: 50%;
+}
+
+#gridDashboard {
+    width: 80%;
+}
+
+#dataChart {
+    // background-color: transparent;
+    padding: none;
+}
+
+.sectionBottom {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  gap: 0.6%;
+}
+
+.tableContainer,
+#gridDashboard {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;   
+  min-height: 0; 
+}
+
+#dataChart,
+#dataChart.cardSection {
+  flex: 0 0 20%;       
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;  
+  min-height: 0;
+  max-height: none !important;
+}
+
+//profile
+
+.avatar {
+    width: 100%;
+}
+.avatarImg{
+    height: 70px;
+    width: 70px;
+}
+
+.profileSection{
+    display: flex;
+    align-items: center;
+    padding-top: 6%;
+}
+
+.profileText {
+  display: flex;
+  flex-direction: column; 
+  line-height: 0.2;
+  width: 100%;
+}
+
+.nameProfile{
+    font-size: 15px;
+    // font-weight: bold;
+}
+.roleProfile{
+    font-size: 15px;
+    color: $primary;
+}
+
+#expansionSelect{
+    background-color: #1F2548;
+}
+
+.avatarSelect{
+    gap: 20px;
+}
+
+.preset-avatars {
+  gap: 20px; // espaçamento entre avatares
+  justify-items: center; // centraliza cada avatar na célula
+  margin-top: 10px;
+  padding-left: 8%;
+}
+
+.preset-avatars {
+  transition: transform 0.2s, border 0.2s;
+//   border: 2px solid transparent;
+//   border-radius: 50%;
+  margin: auto;
+  margin-bottom: 4%; 
+}
+
+.logout-item {
+  color: white !important; /* pra garantir contraste */
+  background-color: #121F2F !important;
+}
+
+.label-error .q-field__label {
+  color: red !important;
+}
+
+// .sideBarButtons{
+//     display: flex;
+//     height: 50px;
+//     gap: 10px;
+// }

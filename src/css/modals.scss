@@ -1,0 +1,83 @@
+.mainModal{
+    background-color: #2B324E;
+}
+
+// .inputModal::placeholder {
+//   color: #ffffff !important;
+//   opacity: 1; // garante que fique visível mesmo em dark mode
+// }
+
+.text-h5{
+    color: #F7B176;
+    font-weight: bold;
+}
+
+.closeIcon{
+    color: #F7B176;
+}
+
+.buttonRegister{
+    background-color: #F7B176;
+}
+
+
+.inputModal {
+    // background-color: #404668;
+    width: 100%;
+    margin-bottom: 2%;
+
+    .q-field__label {
+        color: #f0f0f0;
+        opacity: 60%;
+        border-color: #00ffcc;
+    }
+    margin-top: -3px;
+}
+
+.inputModal .q-field__native {
+    color: white;
+    /* cor do texto digitado */
+}
+
+.inputModal .q-field__control {
+  background-color: #404668;   
+}
+
+.viewInput{
+    width: 100%;
+    background-color: #404668;
+    margin-bottom: 2%;
+}
+
+.viewFont{
+    color: white;
+}
+
+.radio{
+    color: white;
+}
+
+
+.radio .q-radio__label {
+  color: white !important;
+}
+
+.radio .q-radio__bg {
+  border: 2px solid white !important;
+  border-radius: 50%;
+}
+
+.radio-container{
+      display: flex;
+      width: 100%;
+      padding: 1px;
+}
+
+@media screen and (max-width: 600px) {
+    .mainModal{
+        min-height: 0 !important;
+        min-width: 0 !important;
+        width: 400px !important;
+        height: max-content !important;
+    }
+}
