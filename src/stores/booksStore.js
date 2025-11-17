@@ -21,9 +21,9 @@ export const useBookStore = defineStore('book', {
             return api.get('/books')
                 .then(response => {
                     console.log('response.data:', response.data)
-                    this.books = response.data
+                    this.books = response.data.content
 
-                    this.fetchBooksTable = response.data.content.map(book => ({
+                    this.fetchBooksTable = this.books.map(book => ({
                         ...book,
                         name: book.name,
                         publisher: book.publisher.name,
@@ -31,7 +31,7 @@ export const useBookStore = defineStore('book', {
                         author: book.author,
                         launchDate: book.launchDate,
                         totalQuantity: book.totalQuantity,
-                        totalInUse:  Math.max(0, book.totalInUse || 0)
+                        totalInUse: Math.max(0, book.totalInUse || 0)
                     }))
                     console.log('Books fetched:', this.books);
                 })
@@ -58,11 +58,11 @@ export const useBookStore = defineStore('book', {
                 })
         },
 
+
         updateBook(id, updated) {
             return api.put(`/books/${id}`, updated)
-                .then(response => {
-                    const index = this.books.findIndex(b => b.id === id)
-                    if (index !== -1) this.books[index] = response.data
+                .then(async () => {
+                    await this.fetchBooks()
                     successMsg(i18n.global.t('toasts.success.putSuccess'))
                     return true
                 })
@@ -90,7 +90,7 @@ export const useBookStore = defineStore('book', {
         async fetchPublishers() {
             try {
                 const publisherRes = await api.get('/publishers')
-                this.publishersOptions = publisherRes.data.
+                this.publishersOptions = publisherRes.data.content
 
                 console.log('publishers:', this.publishersOptions)
             } catch (err) {

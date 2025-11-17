@@ -68,18 +68,19 @@
 
                 <q-card-section class="scroll">
                     <slot>
-                        <q-form @submit="onSubmit" @reset="onReset" ref="formRef">
+                        <q-form @reset="onReset" ref="formRef">
 
                             <q-input filled v-model="newBook.name" type="text" :label="t('library.createModal.name')"
-                                class="inputModal" color="primary"
-                                :rules="[
+                                class="inputModal" color="primary" :rules="[
                                     val => !!val || t('library.errorInput.name'),
-                                    val => isDuplicate('name', val)
+                                    val => isDuplicate('name', val),
+                                    val => (val && val.length >= 3 && val.length <= 60)
+                                        || t('library.errorTooLarge')
                                 ]" />
 
-                            <q-input filled v-model="newBook.author" type="text" :label="t('library.createModal.author')"
-                                class="inputModal" color="primary"
-                                :rules="[val => !!val || t('library.errorInput.author')]" />
+                            <q-input filled v-model="newBook.author" type="text"
+                                :label="t('library.createModal.author')" class="inputModal" color="primary" :rules="[val => !!val || t('library.errorInput.author'), val => (val && val.length >= 3 && val.length <= 60)
+                                    || t('library.errorTooLarge')]" />
 
                             <q-input filled v-model.number="newBook.totalQuantity" type="number"
                                 :label="t('library.createModal.totalQuantity')" class="inputModal" color="primary"
@@ -87,10 +88,10 @@
                                     val => !!val || t('library.errorInput.totalQuantity'),
                                 ]" />
 
-                          
-                            <q-select filled v-model="newBook.publisherId" :options="publishersOptions" option-value="id" 
-                                option-label="name" emit-value map-options :label="t('library.createModal.publisher')"
-                                class="inputModal" color="primary"
+
+                            <q-select filled v-model="newBook.publisherId" :options="publishersOptions"
+                                option-value="id" option-label="name" emit-value map-options
+                                :label="t('library.createModal.publisher')" class="inputModal" color="primary"
                                 :rules="[val => !!val || t('library.errorInput.publisher')]" />
 
                             <q-input filled v-model="newBook.launchDate" :label="t('library.createModal.launchDate')"
@@ -132,7 +133,8 @@
                 <q-card-actions align="left">
                     <q-btn unelevated :label="t('library.createModal.registerButton')" color="primary" @click="addBook"
                         class="buttonRegister" />
-                    <q-btn flat :label="t('library.createModal.cancelButton')" color="white"  @click="cancel" v-close-popup />
+                    <q-btn flat :label="t('library.createModal.cancelButton')" color="white" @click="cancel"
+                        v-close-popup />
                 </q-card-actions>
 
             </q-card>
@@ -144,7 +146,7 @@
             <q-card style="min-width: 400px; max-width: 95vw; max-height: none;" class="mainModal">
 
                 <q-card-section class="row items-center">
-                    <div class="text-h5">{{ t('library.editModal.title')  + " " + (fixedName) + "?"  }}</div>
+                    <div class="text-h5">{{ t('library.editModal.title') + " " + (fixedName) + "?" }}</div>
                     <q-space />
                     <q-btn icon="close" flat round dense v-close-popup class="closeIcon" />
                 </q-card-section>
@@ -157,14 +159,13 @@
                         <q-form @submit="onSubmit" @reset="onReset" ref="formRefEdit">
 
                             <q-input filled v-model="editBook.name" type="text" :label="t('library.createModal.name')"
-                                class="inputModal" color="primary"
-                                :rules="[
+                                class="inputModal" color="primary" :rules="[
                                     val => !!val || t('library.errorInput.name'),
                                     val => isDuplicate('name', val)
                                 ]" />
 
-                            <q-input filled v-model="editBook.author" type="text" :label="t('library.createModal.author')"
-                                class="inputModal" color="primary"
+                            <q-input filled v-model="editBook.author" type="text"
+                                :label="t('library.createModal.author')" class="inputModal" color="primary"
                                 :rules="[val => !!val || t('library.errorInput.author')]" />
 
                             <q-input filled v-model.number="editBook.totalQuantity" type="number"
@@ -173,10 +174,10 @@
                                     val => !!val || t('library.errorInput.totalQuantity'),
                                 ]" />
 
-                          
-                            <q-select filled v-model="editBook.publisherId" :options="publishersOptions" option-value="id" 
-                                option-label="name" emit-value map-options :label="t('library.createModal.publisher')"
-                                class="inputModal" color="primary"
+
+                            <q-select filled v-model="editBook.publisherId" :options="publishersOptions"
+                                option-value="id" option-label="name" emit-value map-options
+                                :label="t('library.createModal.publisher')" class="inputModal" color="primary"
                                 :rules="[val => !!val || t('library.errorInput.publisher')]" />
 
                             <q-input filled v-model="editBook.launchDate" :label="t('library.createModal.launchDate')"
@@ -219,7 +220,8 @@
                 <q-card-actions align="left">
                     <q-btn unelevated :label="t('library.editModal.registerButton')" color="primary"
                         @click="tryOpenConfirm" class="buttonRegister" />
-                    <q-btn flat :label="t('library.editModal.cancelButton')" color="white" @click="cancel" v-close-popup />
+                    <q-btn flat :label="t('library.editModal.cancelButton')" color="white" @click="cancel"
+                        v-close-popup />
                 </q-card-actions>
 
             </q-card>
@@ -231,7 +233,7 @@
             <q-card style="min-width: 400px; max-width: 95vw; max-height: none;" class="mainModal">
 
                 <q-card-section class="row items-center">
-                    <div class="text-h5">{{ t('excludeModal.text') + " " + "(" + (selectBook.name) + ")"  }}</div>
+                    <div class="text-h5">{{ t('excludeModal.text') + " " + "(" + (selectBook.name) + ")" }}</div>
                     <q-space />
                     <!-- <q-btn icon="close" flat round dense v-close-popup class="closeIcon" /> -->
                 </q-card-section>

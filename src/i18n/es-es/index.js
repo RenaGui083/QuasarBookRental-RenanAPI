@@ -321,6 +321,7 @@ export default {
     roleUser: "Usuario",
     roleAdmin: "Administrador",
     avatarButton: "Establecer avatar",
+    errorTooLarge: "El campo debe tener entre 3 y 50 caracteres",
 
     toasts: {
         success: {
