@@ -67,6 +67,7 @@ export const useRenterStore = defineStore('renter', {
                     const msg = error.response?.data?.error || error.message;
                     console.error('Erro:', msg);
                     errorMsg(i18n.global.t('toasts.error.deleteErrorRenters'));
+                    console.log("API message:", error.response?.data?.detail);
                 })
         }
     }

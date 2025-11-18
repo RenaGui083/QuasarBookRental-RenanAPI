@@ -54,6 +54,7 @@ export const useBookStore = defineStore('book', {
                 .catch(error => {
                     errorMsg(i18n.global.t('toasts.error.postError'));
                     console.error('Erro:', error.response?.data || error.message);
+                    console.log("API message:", error.response?.data?.detail);
                     return false
                 })
         },
@@ -70,6 +71,7 @@ export const useBookStore = defineStore('book', {
                     const msg = error.response?.data?.error || error.message;
                     console.error('Erro:', msg);
                     errorMsg(i18n.global.t('toasts.error.putError'));
+                    console.log("API message:", error.response?.data?.detail);
                     return false
                 })
         },
@@ -80,10 +82,10 @@ export const useBookStore = defineStore('book', {
                     this.books = this.books.filter(b => b.id !== id)
                     successMsg(i18n.global.t('toasts.success.deleteSuccess'))
                 })
-                .catch(error => {
-                    const msg = error.response?.data?.error || error.message;
-                    console.error('Erro:', msg);
-                    errorMsg(i18n.global.t('toasts.error.deleteErrorBook'));
+                    .catch(error => {
+                        console.log(error)
+                        errorMsg(i18n.global.t('toasts.error.deleteErrorBook'));
+                        console.log("API message:", error.response?.data?.detail);
                 })
         },
 
@@ -96,6 +98,7 @@ export const useBookStore = defineStore('book', {
             } catch (err) {
                 console.error('Error to fetch publishers', err)
                 errorMsg(i18n.global.t('toasts.error.getError'))
+                console.log("API message:", err.response?.data?.detail);
             }
         }
     }

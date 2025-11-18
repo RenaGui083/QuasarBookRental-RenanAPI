@@ -70,6 +70,7 @@ export const usePublisherStore = defineStore('publisher', {
                     const msg = error.response?.data?.error || error.message;
                     console.error('Erro:', msg);
                     errorMsg(i18n.global.t('toasts.error.deleteErrorPublishers'));
+                    console.log("API message:", error.response?.data?.detail);
                 })
 
         }

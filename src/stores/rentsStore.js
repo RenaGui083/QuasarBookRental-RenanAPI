@@ -20,24 +20,22 @@ export const useRentsStore = defineStore('rents', {
 
             return api.get('/rents')
                 .then(response => {
-                    this.rents = response.data
+                    const content = response.data.content
 
-                    // const locale = i18n.global.locale.value || i18n.global.locale
-                    this.fetchRentsTable = response.data.content.map(rent => ({
+                    this.rents = content
+
+                    this.fetchRentsTable = content.map(rent => ({
                         ...rent,
-                        book: rent.book.name,
-                        renter: rent.renter.name,
-                        bookId: rent.book.id,
-                        renterId: rent.renter.id,
+                        book: rent.book?.name,
+                        renter: rent.renter?.name,
+                        bookId: rent.book?.id,
+                        renterId: rent.renter?.id,
                         rentDate: rent.rentDate,
-                            // ? new Intl.DateTimeFormat(locale, { day: '2-digit', month: '2-digit', year: 'numeric' }).format(new Date(rent.rentDate))
-                            // : '',
                         deadLine: rent.deadLine,
-                            // ? new Intl.DateTimeFormat(locale, { day: '2-digit', month: '2-digit', year: 'numeric' }).format(new Date(rent.deadLine))
-                            // : '',
                         status: i18n.global.t(`rents.status.${rent.status}`)
                     }))
-                    console.log('Rents fetched:', this.rents);
+
+                    console.log('Rents fetched:', this.rents)
                 })
                 .catch(e => {
                     console.error('Erro:', e.response?.data || e.message);
@@ -48,64 +46,76 @@ export const useRentsStore = defineStore('rents', {
                 })
         },
 
-        addRent(rent) {
-            return api.post('/rents', rent)
-                .then(response => {
-                    this.rents.push(response.data)
-                    successMsg(i18n.global.t('toasts.success.postSuccess'))
-                    return true
-                })
-                .catch(error => {
-                    errorMsg(i18n.global.t('toasts.error.postErrorRent'));
-                    console.error('Erro:', error.response?.data || error.message);
-                    console.log(rent)
-                    return false
-                })
+        async addRent(rent) {
+            try {
+                await api.post('/rents', rent)
+                await this.fetchRents()
+
+                successMsg(i18n.global.t('toasts.success.postSuccess'))
+                return true
+
+            } catch (error) {
+                console.error('Erro:', error.response?.data || error.message)
+                errorMsg(i18n.global.t('toasts.error.postErrorRent'))
+                console.log("API message:", error.response?.data?.detail);
+                return false
+            }
         },
 
-        updateRent(id, updated) {
-            return api.put(`/rent/update/${id}`, updated)
-                .then(response => {
-                    const index = this.rents.findIndex(r => r.id === id)
-                    if (index !== -1) this.rents[index] = response.data
-                    successMsg(i18n.global.t('toasts.success.putSuccess'))
-                    return true
-                })
-                .catch(error => {
-                    const msg = error.response?.data?.error || error.message;
-                    console.error('Erro:', msg);
-                    errorMsg(i18n.global.t('toasts.error.putError'));
-                    return false
-                })
+        async updateRent(id, updated) {
+            try {
+                await api.put(`/rents/${id}`, updated)
+                await this.fetchRents()
+
+                successMsg(i18n.global.t('toasts.success.putSuccess'))
+                return true
+            } catch (error) {
+                console.log(error)
+                errorMsg(i18n.global.t('toasts.error.putError'))
+                console.log("API message:", error.response?.data?.detail);
+                return false
+            }
         },
 
-        finishRent(id) {
-            return api.put(`/rents/${id}`)
-                .then(() => {
-                    successMsg(i18n.global.t('toasts.success.finishRent'))
-                    return true
-                })
-                .catch(error => {
-                    const msg = error.response?.data?.error || error.message;
-                    console.error('Erro:', msg);
-                    errorMsg(i18n.global.t('toasts.error.errorFinishRent'));
-                    return false
-                })
+        async finishRent(id) {
+            try {
+                await api.put(`/rents/deliver/${id}`)
+                await this.fetchRents() // ← atualiza a tabela
+
+                successMsg(i18n.global.t('toasts.success.finishRent'))
+                return true
+
+            } catch (error) {
+                console.error('Erro ao finalizar aluguel:', error.response?.data || error.message)
+                errorMsg(i18n.global.t('toasts.error.putError'))
+                console.log("API message:", error.response?.data?.detail);
+                return false
+            }
         },
 
         async fetchBooksAndRenters() {
             try {
                 const booksRes = await api.get('/books')
-                this.booksOptions = booksRes.data
-
                 const rentersRes = await api.get('/renters')
-                this.rentersOptions = rentersRes.data
+
+                this.booksOptions = booksRes.data.content.map(b => ({
+                    label: b.name,
+                    value: b.id,
+                    ...b
+                }))
+
+                this.rentersOptions = rentersRes.data.content.map(r => ({
+                    label: r.name,
+                    value: r.id,
+                    ...r
+                }))
 
                 console.log('Books:', this.booksOptions)
                 console.log('Renters:', this.rentersOptions)
             } catch (err) {
                 console.error('Error to fetch books and renters:', err)
                 errorMsg(i18n.global.t('toasts.error.getError'))
+                console.log("API message:", err.response?.data?.detail);
             }
         }
     }
