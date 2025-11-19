@@ -31,30 +31,28 @@ export const usePublisherStore = defineStore('publisher', {
 
         addPublisher(publisher) {
             return api.post('/publishers', publisher)
-                .then(response => {
-                    this.publishers.push(response.data)
+                .then(() => {
                     successMsg(i18n.global.t('toasts.success.postSuccess'))
                     return true
                 })
                 .catch(error => {
                     errorMsg(i18n.global.t('toasts.error.postError'));
                     console.error('Erro:', error.response?.data || error.message);
+                    console.log("API message:", error.response?.data?.detail);
                     return false
                 })
         },
 
         updatePublisher(id, updated) {
             return api.put(`/publishers/${id}`, updated)
-                .then(response => {
-                    const index = this.publishers.findIndex(p => p.id === id)
-                    if (index !== -1) this.publishers[index] = response.data
+                .then(() => {
                     successMsg(i18n.global.t('toasts.success.putSuccess'))
                     return true
                 })
                 .catch(error => {
-                    const msg = error.response?.data?.error || error.message;
-                    console.error('Erro:', msg);
-                    errorMsg(i18n.global.t('toasts.error.putError'));
+                    errorMsg(i18n.global.t('toasts.error.postError'));
+                    console.error('Erro:', error.response?.data || error.message);
+                    console.log("API message:", error.response?.data?.detail);
                     return false
                 })
         },
@@ -63,16 +61,15 @@ export const usePublisherStore = defineStore('publisher', {
 
             return api.delete(`/publishers/${id}`)
                 .then(() => {
-                    this.publishers = this.publishers.filter(p => p.id !== id)
                     successMsg(i18n.global.t('toasts.success.deleteSuccess'))
+                    return true
                 })
                 .catch(error => {
-                    const msg = error.response?.data?.error || error.message;
-                    console.error('Erro:', msg);
                     errorMsg(i18n.global.t('toasts.error.deleteErrorPublishers'));
+                    console.error('Erro:', error.response?.data || error.message);
                     console.log("API message:", error.response?.data?.detail);
+                    return false
                 })
-
         }
     }
 })

@@ -100,7 +100,7 @@ export function useCrud() {
             const added = await userStore.addUser(newUser.value)
             if (added) {
                 await userStore.fetchUsers()
-                newUser.value = { name: '', email: '', password: '', role: '' }
+                newUser.value = { name: '', email: '', password: '', role: 'USER' }
                 openModalCreate.value = false
             }
         } else {
@@ -141,7 +141,7 @@ export function useCrud() {
             await userStore.fetchUsers()
             openModalEdit.value = false
             openModalConfirm.value = false
-            editUser.value = { name: '', email: '', role: '' }
+            editUser.value = { name: '', email: '', role: 'USER' }
             selectUser.value = null
         } else {
             console.error('Failed to update user', error)
@@ -156,7 +156,7 @@ export function useCrud() {
         openModalEdit.value = false
         openModalCreate.value = false
         editUser.value = { name: '', email: '', role: '' }
-        newUser.value = { name: '', email: '', password: '', role: '' }
+        newUser.value = { name: '', email: '', password: '', role: 'USER' }
         selectUser.value = null
     }
 

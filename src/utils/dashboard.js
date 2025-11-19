@@ -8,91 +8,93 @@ import i18n from 'src/i18n';
 import { useDashboardStore } from 'src/stores/dashboardStore';
 import { storeToRefs } from 'pinia'
 
-
 export function useCrud() {
     const dashboardStore = useDashboardStore()
-
     const { t } = useI18n()
-
     const $q = useQuasar()
 
+    // paginação das tabelas
     const pagination = ref({
         page: 1,
         rowsPerPage: 2
     })
 
     const numberOfMonths = ref(1)
-
     const numberOfMonthsTop3 = ref(1)
 
-    const { renters, loading, error, fetchRenters, numberOfAdmins, numberOfUsers } = storeToRefs(dashboardStore)
+    // pega refs direto do novo store
+    const { 
+      loading, 
+      error, 
+      users, 
+      numberOfAdmins, 
+      numberOfUsers,
+      topBooks,
+      topRenters,
+      rented,
+      late,
+      returnedOnTime,
+      returnedLate
+    } = storeToRefs(dashboardStore)
 
     const updatePagination = () => {
-    if ($q.screen.lt.md) {
-        pagination.value.rowsPerPage = 0
-    } else if ($q.screen.lt.lg) {
-        pagination.value.rowsPerPage = 2 
-    } else if ($q.screen.lt.xl) {
-        pagination.value.rowsPerPage = 3 
-    } else {
-        pagination.value.rowsPerPage = 5 
+        if ($q.screen.lt.md) {
+            pagination.value.rowsPerPage = 0
+        } else if ($q.screen.lt.lg) {
+            pagination.value.rowsPerPage = 2 
+        } else if ($q.screen.lt.xl) {
+            pagination.value.rowsPerPage = 3 
+        } else {
+            pagination.value.rowsPerPage = 5 
+        }
     }
-}
 
+    // como essas funções NÃO existem mais no store, removi os watchers antigos.
+    // Caso você volte a ter filtros por mês, a gente recoloca.
+    watch(numberOfMonths, () => {})
+    watch(numberOfMonthsTop3, () => {})
 
-
-
-    watch(numberOfMonthsTop3, (newVal) => {
-        if (newVal && newVal > 0) {
-            dashboardStore.fetchTop3(newVal)
-        }
-    })
-
-    watch(numberOfMonths, (newVal) => {
-        if (newVal && newVal > 0) {
-            dashboardStore.fetchRents(newVal)
-        }
-    })
-
-
-    onMounted(async () => { // onMounted = window.onload do javaScript
+    onMounted(async () => {
         try {
             await Promise.all([
-                dashboardStore.fetchRenters(),
+                dashboardStore.fetchDashboard(),
                 dashboardStore.fetchRentersAndAdmins(),
-                dashboardStore.fetchTop3(numberOfMonthsTop3.value),
-                dashboardStore.fetchRents(numberOfMonths.value),
-                dashboardStore.fetchPublishersBooksRenters()
             ])
-            console.log('data fetched on mount')
+            console.log('Dashboard data fetched')
         } catch (error) {
-            console.log(error)('Failed to fetch data on mount')
-        }
-        if ($q.screen.gt.lg) {
-            pagination.value.rowsPerPage = 5
-        } else if ($q.screen.lt.lg) {
-            pagination.value.rowsPerPage = 3
+            console.error('Failed to fetch data on mount', error)
         }
 
         updatePagination()
     })
+
+    // tabela de USERS (caso use)
     const columns = computed(() => [
         { name: "name", label: t('dashboard.table.renters'), field: "name", align: "left", sortable: true },
-        { name: "rentsQuantity", label: t('dashboard.table.rentsQuantity'), field: "rentsQuantity", align: "left", sortable: true },
-        { name: "rentsActive", label: t('dashboard.table.rentsActive'), field: "rentsActive", align: "left", sortable: true }
+        { name: "email", label: "Email", field: "email", align: "left", sortable: true },
+        { name: "role", label: "Role", field: "role", align: "left", sortable: true },
     ])
 
     const paginationLabel = (start, end, total) => `${start} - ${end} ${t('tables.of')} ${total}`
 
     watch(() => $q.screen.name, updatePagination)
 
-
-
     return {
-        ChartBar1, ChartBar2, ChartPie1, renters, loading, error, fetchRenters,
+        // charts
+        ChartBar1, ChartBar2, ChartPie1,
 
-        $q, t, i18n, numberOfAdmins, numberOfUsers,
+        // store refs
+        rented, late, returnedOnTime, returnedLate,
+        topBooks, topRenters,
+        users, numberOfAdmins, numberOfUsers,
+        loading, error,
 
-        pagination, columns, paginationLabel, numberOfMonths, numberOfMonthsTop3,
+        // utils
+        fetchDashboard: dashboardStore.fetchDashboard,
+        fetchRentersAndAdmins: dashboardStore.fetchRentersAndAdmins,
+
+        $q, t, i18n,
+        pagination, columns, paginationLabel,
+        numberOfMonths, numberOfMonthsTop3,
     }
 }

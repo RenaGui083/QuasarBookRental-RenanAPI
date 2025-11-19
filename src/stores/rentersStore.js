@@ -29,30 +29,28 @@ export const useRenterStore = defineStore('renter', {
 
         addRenter(renter) {
             return api.post('/renters', renter)
-                .then(response => {
-                    this.renters.push(response.data)
+                .then(() => {
                     successMsg(i18n.global.t('toasts.success.postSuccess'))
                     return true
                 })
                 .catch(error => {
-                    errorMsg(i18n.global.t('toasts.error.postErrorCpf'));
+                    errorMsg(i18n.global.t('toasts.error.postError'));
                     console.error('Erro:', error.response?.data || error.message);
+                    console.log("API message:", error.response?.data?.detail);
                     return false
                 })
         },
 
         updateRenter(id, updated) {
             return api.put(`/renters/${id}`, updated)
-                .then(response => {
-                    const index = this.renters.findIndex(r => r.id === id)
-                    if (index !== -1) this.renters[index] = response.data
+                .then(() => {
                     successMsg(i18n.global.t('toasts.success.putSuccess'))
                     return true
                 })
                 .catch(error => {
-                    const msg = error.response?.data?.error || error.message;
-                    console.error('Erro:', msg);
-                    errorMsg(i18n.global.t('toasts.error.putErrorCpf'));
+                    errorMsg(i18n.global.t('toasts.error.postError'));
+                    console.error('Erro:', error.response?.data || error.message);
+                    console.log("API message:", error.response?.data?.detail);
                     return false
                 })
         },
@@ -60,14 +58,14 @@ export const useRenterStore = defineStore('renter', {
         deleteRenter(id) {
             return api.delete(`/renters/${id}`)
                 .then(() => {
-                    this.renters = this.renters.filter(r => r.id !== id)
                     successMsg(i18n.global.t('toasts.success.deleteSuccess'))
+                    return true
                 })
                 .catch(error => {
-                    const msg = error.response?.data?.error || error.message;
-                    console.error('Erro:', msg);
-                    errorMsg(i18n.global.t('toasts.error.deleteErrorRenters'));
+                    errorMsg(i18n.global.t('toasts.error.deleteError'));
+                    console.error('Erro:', error.response?.data || error.message);
                     console.log("API message:", error.response?.data?.detail);
+                    return false
                 })
         }
     }

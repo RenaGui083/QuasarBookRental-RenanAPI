@@ -81,7 +81,6 @@
                                 :label="t('users.createModal.name')" class="inputModal" :rules="[
 
                                     val => !!val || t('users.errorInput.name'),
-                                    val => isDuplicate('name', val)
                                 ]" />
 
                             <q-input filled v-model="newUser.email" type="email" color="primary"
@@ -139,7 +138,6 @@
                             <q-input filled v-model="editUser.name" type="text" color="primary"
                                 :label="t('users.createModal.name')" class="inputModal" :rules="[
                                     val => !!val || t('users.errorInput.name'),
-                                    val => isDuplicate('name', val)
                                 ]" />
 
                             <q-input filled v-model="editUser.email" type="email" color="primary"

@@ -17,12 +17,6 @@ export const useUserStore = defineStore('user', {
             return api.get('/users')
                 .then(response => {
                     this.users = response.data.content
-                    // this.users = response.data.map(user => ({
-                    //     ...user,
-                    //     role: user.role === 'ADMIN' 
-                    //     ? i18n.global.t('roleAdmin') 
-                    //     : i18n.global.t('roleUser')
-                    // }))
                 })
                 .catch(e => {
                     console.error('Erro:', e.response?.data || e.message);
@@ -35,30 +29,28 @@ export const useUserStore = defineStore('user', {
 
         addUser(user) {
             return api.post('/users', user)
-                .then(response => {
-                    this.users.push(response.data)
+                .then(() => {
                     successMsg(i18n.global.t('toasts.success.postSuccess'))
                     return true
                 })
                 .catch(error => {
                     errorMsg(i18n.global.t('toasts.error.postError'));
                     console.error('Erro:', error.response?.data || error.message);
+                    console.log("API message:", error.response?.data?.detail);
                     return false
                 })
         },
 
         updateUser(id, updated) {
             return api.put(`/users/${id}`, updated)
-                .then(response => {
-                    const index = this.users.findIndex(u => u.id === id)
-                    if (index !== -1) this.users[index] = response.data
+                .then(() => {
                     successMsg(i18n.global.t('toasts.success.putSuccess'))
                     return true
                 })
                 .catch(error => {
-                    const msg = error.response?.data?.error || error.message;
-                    console.error('Erro:', msg);
-                    errorMsg(i18n.global.t('toasts.error.putError'));
+                    errorMsg(i18n.global.t('toasts.error.postError'));
+                    console.error('Erro:', error.response?.data || error.message);
+                    console.log("API message:", error.response?.data?.detail);
                     return false
                 })
         },
@@ -66,13 +58,14 @@ export const useUserStore = defineStore('user', {
         deleteUser(id) {
             return api.delete(`/users/${id}`)
                 .then(() => {
-                    this.users = this.users.filter(u => u.id !== id)
                     successMsg(i18n.global.t('toasts.success.deleteSuccess'))
+                    return true
                 })
                 .catch(error => {
-                    const msg = error.response?.data?.error || error.message;
-                    console.error('Erro:', msg);
                     errorMsg(i18n.global.t('toasts.error.deleteError'));
+                    console.error('Erro:', error.response?.data || error.message);
+                    console.log("API message:", error.response?.data?.detail);
+                    return false
                 })
         }
     }

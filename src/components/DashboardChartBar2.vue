@@ -1,36 +1,43 @@
 <template>
-    <div class="q-pa-md">
-        <BarChart :data="chartData" :options="chartOptions" />
-    </div>
+  <div class="q-pa-md">
+    <BarChart :data="chartData" :options="chartOptions" />
+  </div>
 </template>
 
 <script setup>
 import {
-    Chart as ChartJS,
-    Title, Tooltip, Legend,
-    BarElement, CategoryScale, LinearScale
+  Chart as ChartJS,
+  Title, Tooltip, Legend,
+  BarElement, CategoryScale, LinearScale
 } from "chart.js";
 import { Bar } from "vue-chartjs";
 import { useDashboardStore } from 'src/stores/dashboardStore';
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
- const dashboardStore = useDashboardStore()
+const dashboardStore = useDashboardStore()
 
-const { labelsTop3, valuesTop3 } = storeToRefs(dashboardStore)
+// agora usando os dados corretos
+const { topBooks } = storeToRefs(dashboardStore)
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
-const chartData = computed(() => ({
-  labels: labelsTop3.value,
-  datasets: [
-    {
-      label: "Distribuição",
-      data: valuesTop3.value,
-      backgroundColor: ["#88B6EE", "#4B6B92", "#404668"],
-    },
-  ],
-}));
+// monta os labels e valores direto do topBooks
+const chartData = computed(() => {
+  const labels = topBooks.value?.map(b => b.title) || []
+  const values = topBooks.value?.map(b => b.totalRented || b.totalRents || 0) || []
+
+  return {
+    labels,
+    datasets: [
+      {
+        label: "Top 3 Livros",
+        data: values,
+        backgroundColor: ["#88B6EE", "#4B6B92", "#404668"],
+      },
+    ],
+  }
+})
 
 const chartOptions = {
   responsive: true,
@@ -56,6 +63,5 @@ const chartOptions = {
   },
 }
 
-const BarChart = Bar;
-
+const BarChart = Bar
 </script>

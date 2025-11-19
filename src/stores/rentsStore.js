@@ -49,8 +49,7 @@ export const useRentsStore = defineStore('rents', {
         async addRent(rent) {
             try {
                 await api.post('/rents', rent)
-                await this.fetchRents()
-
+            
                 successMsg(i18n.global.t('toasts.success.postSuccess'))
                 return true
 
@@ -65,8 +64,7 @@ export const useRentsStore = defineStore('rents', {
         async updateRent(id, updated) {
             try {
                 await api.put(`/rents/${id}`, updated)
-                await this.fetchRents()
-
+              
                 successMsg(i18n.global.t('toasts.success.putSuccess'))
                 return true
             } catch (error) {
@@ -80,7 +78,6 @@ export const useRentsStore = defineStore('rents', {
         async finishRent(id) {
             try {
                 await api.put(`/rents/deliver/${id}`)
-                await this.fetchRents() // ← atualiza a tabela
 
                 successMsg(i18n.global.t('toasts.success.finishRent'))
                 return true

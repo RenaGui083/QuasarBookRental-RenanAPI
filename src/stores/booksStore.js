@@ -46,8 +46,7 @@ export const useBookStore = defineStore('book', {
 
         addBook(books) {
             return api.post('/books', books)
-                .then(response => {
-                    this.books.push(response.data)
+                .then(() => {
                     successMsg(i18n.global.t('toasts.success.postSuccess'))
                     return true
                 })
@@ -62,15 +61,13 @@ export const useBookStore = defineStore('book', {
 
         updateBook(id, updated) {
             return api.put(`/books/${id}`, updated)
-                .then(async () => {
-                    await this.fetchBooks()
+                .then(() => {
                     successMsg(i18n.global.t('toasts.success.putSuccess'))
                     return true
                 })
                 .catch(error => {
-                    const msg = error.response?.data?.error || error.message;
-                    console.error('Erro:', msg);
-                    errorMsg(i18n.global.t('toasts.error.putError'));
+                   errorMsg(i18n.global.t('toasts.error.putError'));
+                    console.error('Erro:', error.response?.data || error.message);
                     console.log("API message:", error.response?.data?.detail);
                     return false
                 })

@@ -75,7 +75,6 @@
                             <q-input filled v-model="newRenter.name" type="text" color="primary"
                                 :label="t('renters.createModal.name')" class="inputModal" :rules="[
                                     val => val && val.length > 0 || t('renters.errorInput.name'),
-                                    val => isDuplicate('name', val)
                                 ]" />
 
                             <q-input filled v-model="newRenter.email" type="email" color="primary"
@@ -140,7 +139,6 @@
                         <q-input filled v-model="editRenter.name" type="text" color="primary"
                             :label="t('renters.createModal.name')" class="inputModal" :rules="[
                                 val => val && val.length > 0 || t('renters.errorInput.name'),
-                                val => isDuplicate('name', val)
                             ]" />
 
                         <q-input filled v-model="editRenter.email" type="email" color="primary"
