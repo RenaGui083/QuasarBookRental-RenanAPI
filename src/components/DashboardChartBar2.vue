@@ -17,12 +17,10 @@ import { computed } from 'vue'
 
 const dashboardStore = useDashboardStore()
 
-// agora usando os dados corretos
 const { topBooks } = storeToRefs(dashboardStore)
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
-// monta os labels e valores direto do topBooks
 const chartData = computed(() => {
   const labels = topBooks.value?.map(b => b.title) || []
   const values = topBooks.value?.map(b => b.totalRented || b.totalRents || 0) || []
@@ -62,6 +60,7 @@ const chartOptions = {
     },
   },
 }
+
 
 const BarChart = Bar
 </script>
