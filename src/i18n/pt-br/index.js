@@ -25,7 +25,15 @@ export default {
         title: "Recuperar senha",
         email: "Email",
         button: "Continuar",
-        buttonBack: "Voltar"
+        buttonBack: "Voltar",
+        recoverPassword: {
+            title: "Redefinir senha",
+            newPassword: "Nova senha",
+            errorNewPassword: "Erro ao redefinir a senha",
+            successNewPassword: "Senha redefinida com sucesso!",
+            errorToSendEmail: "Erro ao enviar email de recuperação",
+            errorHintPassword: "A senha deve ter no mínimo 8 caracteres"
+        }
     },
 
 
@@ -55,7 +63,8 @@ export default {
             returnedLate: "Devolvidos com atraso",
             publishers: "Editoras",
             books: "Livros",
-            renters: "Locatários"
+            renters: "Locatários",
+            registrations: "Cadastros"
         },
         table: {
             tableTitle: "Relatório de locatários",

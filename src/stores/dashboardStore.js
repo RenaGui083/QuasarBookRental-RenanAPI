@@ -5,7 +5,6 @@ import { i18n } from 'boot/i18n'
 
 export const useDashboardStore = defineStore('dashboard', {
   state: () => ({
-    // ----- Dados vindos diretamente do backend -----
     rented: 0,
     late: 0,
     returnedOnTime: 0,
@@ -15,8 +14,13 @@ export const useDashboardStore = defineStore('dashboard', {
     users: [],
     numberOfAdmins: 0,
     numberOfUsers: 0,
+    books: [],
+    renters: [],
+    publishers: [],
+    totalBooks: 0,
+    totalRenters: 0,
+    totalPublishers: 0,
 
-    // ----- Controle interno -----
     loading: false,
     error: null
   }),
@@ -30,7 +34,6 @@ export const useDashboardStore = defineStore('dashboard', {
         const response = await api.get('/dashboard')
         const data = response.data
 
-        // Preenche os dados exatamente como vem do backend
         this.rented = data.rented
         this.late = data.late
         this.returnedOnTime = data.returnedOnTime
@@ -38,10 +41,10 @@ export const useDashboardStore = defineStore('dashboard', {
         this.topBooks = data.topBooks
         this.topRenters = data.topRenters
 
-        console.log("Dashboard carregado:", data)
+        console.log("Dashboard data:", data)
 
       } catch (e) {
-        console.error('Erro ao carregar dashboard:', e.response?.data || e.message)
+        console.error('Error to fetch data in dashboard:', e.response?.data || e.message)
         this.error = e
         errorMsg(i18n.global.t('toasts.error.getError'))
 
@@ -50,25 +53,56 @@ export const useDashboardStore = defineStore('dashboard', {
       }
     },
 
-     fetchRentersAndAdmins() {
-            return api.get('/users')
-                .then(response => {
-                    const allUsers = response.data.content
+    fetchRentersAndAdmins() {
+      return api.get('/users')
+        .then(response => {
+          const allUsers = response.data.content
 
-                    // salva a lista inteira
-                    this.users = allUsers
+          this.users = allUsers
 
-                    // conta admins e não-admins
-                    this.numberOfAdmins = allUsers.filter(u => u.role === 'ADMIN').length
-                    this.numberOfUsers = allUsers.filter(u => u.role !== 'ADMIN').length
+          this.numberOfAdmins = allUsers.filter(u => u.role === 'ADMIN').length
+          this.numberOfUsers = allUsers.filter(u => u.role !== 'ADMIN').length
 
-                    console.log('Admins:', this.numberOfAdmins, 'Users:', this.numberOfUsers)
-                    console.log(response)
-                })
-                .catch(e => {
-                    console.error('Error to fetch admins in dashboard:', e.response?.data || e.message)
-                    errorMsg(i18n.global.t('toasts.error.getError'))
-                })
-        },
+          console.log('Admins:', this.numberOfAdmins, 'Users:', this.numberOfUsers)
+          console.log(response)
+        })
+        .catch(e => {
+          console.error('Error to fetch admins in dashboard:', e.response?.data || e.message)
+          errorMsg(i18n.global.t('toasts.error.getError'))
+        })
+    },
+
+    async fetchPublishersRentersBooks() {
+      this.loading = true
+      this.error = null
+
+      try {
+        const books = await api.get('/books')
+        const renters = await api.get('/renters')
+        const publishers = await api.get('/publishers')
+
+        this.books = books.data.content
+        this.renters = renters.data.content
+        this.publishers = publishers.data.content
+
+        this.totalBooks = this.books.length
+        this.totalRenters = this.renters.length
+        this.totalPublishers = this.publishers.length
+
+        console.log("Totals:", {
+          books: this.totalBooks,
+          renters: this.totalRenters,
+          publishers: this.totalPublishers
+        })
+
+      } catch (e) {
+        console.error('Error to fetch data in dashboard:', e.response?.data || e.message)
+        this.error = e
+        errorMsg(i18n.global.t('toasts.error.getError'))
+
+      } finally {
+        this.loading = false
+      }
+    },
   }
 })

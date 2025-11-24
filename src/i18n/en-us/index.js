@@ -25,7 +25,15 @@ export default {
         title: "Recover password",
         email: "Email",
         button: "Continue",
-        buttonBack: "Back"
+        buttonBack: "Back",
+        recoverPassword: {
+            title: "Reset password",
+            newPassword: "New password",
+            errorNewPassword: "Error resetting password",
+            successNewPassword: "Password reset successfully!",
+            errorToSendEmail: "Error sending recovery email",
+            errorHintPassword: "Password must be at least 8 characters"
+        }
     },
 
 
@@ -55,7 +63,8 @@ export default {
             returnedLate: "Returned late",
             publishers: "Publishers",
             books: "Books",
-            renters: "Renters"
+            renters: "Renters",
+            registrations: "Registrations"
         },
         table: {
             tableTitle: "Renters report",

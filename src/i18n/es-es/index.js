@@ -24,7 +24,15 @@ export default {
         title: "Recuperar contraseña",
         email: "Correo electrónico",
         button: "Continuar",
-        buttonBack: "Volver"
+        buttonBack: "Volver",
+        recoverPassword: {
+            title: "Restablecer contraseña",
+            newPassword: "Nueva contraseña",
+            errorNewPassword: "Error al restablecer la contraseña",
+            successNewPassword: "¡Contraseña restablecida con éxito!",
+            errorToSendEmail: "Error al enviar el correo electrónico de recuperación",
+            errorHintPassword: "La contraseña debe tener al menos 8 caracteres"
+        }
     },
 
     sideBar: {
@@ -52,7 +60,8 @@ export default {
             returnedLate: "Devuelto con demora",
             publishers: "Editoriales",
             books: "Libros",
-            renters: "Arrendatarios"
+            renters: "Arrendatarios",
+            registrations: "Registros"
         },
         table: {
             tableTitle: "Informe de arrendatarios",

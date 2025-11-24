@@ -29,7 +29,7 @@ const chartData = computed(() => {
     labels,
     datasets: [
       {
-        label: "Top 3 Livros",
+        label: "Top 3",
         data: values,
         backgroundColor: ["#88B6EE", "#4B6B92", "#404668"],
       },

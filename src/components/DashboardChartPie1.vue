@@ -26,16 +26,10 @@ import { storeToRefs } from 'pinia'
 const dashboardStore = useDashboardStore()
 
 const {
-  topBooks,
-  numberOfAdmins,
-  numberOfUsers
+  totalPublishers,
+  totalBooks,
+  totalRenters,
 } = storeToRefs(dashboardStore)
-
-// // BUSCANDO DADOS NECESSÁRIOS
-// onMounted(async () => {
-//   await dashboardStore.fetchDashboard()
-//   await dashboardStore.fetchRentersAndAdmins()
-// })
 
 // CHART DATA
 const chartData = computed(() => ({
@@ -44,9 +38,9 @@ const chartData = computed(() => ({
     {
       label: t('dashboard.chart.registrations'),
       data: [
-        topBooks.value.length ?? 0,
-        numberOfAdmins.value ?? 0,
-        numberOfUsers.value ?? 0
+        totalPublishers.value ?? 0,
+        totalBooks.value ?? 0,
+        totalRenters.value ?? 0
       ],
       backgroundColor: ['#404668', '#121F2F', '#F7B176'],
     }

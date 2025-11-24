@@ -87,7 +87,6 @@ import { Dark } from 'quasar'
 Dark.set(false)
 const { t } = useI18n()
 
-// store
 const dashboardStore = useDashboardStore()
 const {
   topRenters,
@@ -96,12 +95,10 @@ const {
   loading
 } = storeToRefs(dashboardStore)
 
-// inputs dos gráficos (já existiam)
 const numberOfMonths = ref(6)
 const numberOfMonthsTop3 = ref(6)
 
-// tabela
-const renters = topRenters          // ← você usa "renters" na q-table, então só apontamos pra topRenters
+const renters = topRenters         
 const filter = ref('')
 const pagination = ref({
   page: 1,
@@ -114,14 +111,14 @@ const columns = computed(() => [
   { name: "activeRents", label: t('dashboard.table.rentsActive'), field: "activeRents", align: "left", sortable: true }
 ])
 
-// label usada no pagination
+
 function paginationLabel(first, last, total) {
   return `${first}-${last} / ${total}`
 }
 
-// carrega tudo ao abrir o dashboard
 onMounted(async () => {
   await dashboardStore.fetchDashboard()
   await dashboardStore.fetchRentersAndAdmins()
+  await dashboardStore.fetchPublishersRentersBooks()
 })
 </script>
